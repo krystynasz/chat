@@ -11,6 +11,7 @@ const plugins = [new HtmlWebpackPlugin({
 //webpack.config.js
 module.exports = (env) => {
     const environment = env || 'production';
+
     if (env === 'production') {
         plugins.push(
             new OptimizeJsPlugin({
@@ -20,6 +21,7 @@ module.exports = (env) => {
     };
 
     return {
+
         mode: environment,
         entry: './client/index.js',
         output: {
@@ -27,7 +29,14 @@ module.exports = (env) => {
             filename: 'app.bundle.js'
         },
         plugins: plugins,
-
+        devServer: {
+            proxy: {
+                '/socket.io': {
+                    target: 'http://localhost:3000',
+                        ws: true
+                }
+            }
+        },
         module: {
             rules: [
                 {
@@ -49,16 +58,10 @@ module.exports = (env) => {
                         }
                     ]
                 }
-            ]
-        },
-
-        devServer: {
-            proxy: {
-                '/socket.io': {
-                    target: 'http://localhost:3000',
-                    ws: true
-                }
-            }
+            ],
         }
+
     }
+
 };
+

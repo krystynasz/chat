@@ -11,10 +11,10 @@ const userService = new UsersService();
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(`${__dirname}/index.html`);
 });
 
-io.on('connection', function(socket) {
+io.on('connection', (socket) => {
     //miejsce dla funkcji, które zostaną wykonane po podłączeniu klienta
     socket.on('join', function(name){
         // użytkownika, który pojawił się w aplikacji zapisujemy do serwisu trzymającego listę osób w czacie
@@ -42,6 +42,6 @@ io.on('connection', function(socket) {
       });
   });
   
-server.listen(3000, function(){
+server.listen(3000, () => {
   console.log('listening on *:3000');
 });
